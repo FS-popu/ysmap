@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
  <meta charset="utf-8" />
-  <title>ysmap</title>
+  <title>ysmap_20251205v</title>
   <style>
     body {
       margin: 0;
@@ -236,11 +236,47 @@ transform: translateX(-80%);
   background-color: #d2d2d2;
 }
 
+/* 搬家點樣式 */
+.city .relocate-mark {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-75%);
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* 進攻路線狀態列文字（可自定） */
+#simulationStatus {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#pathLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* 避免擋住點擊 */
+  z-index: 10;
+}
+
+.city .relocate-icon {
+ 
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-75%);
+  font-size: 18px;
+  color: #007bff;
+}
+
 
   </style>
 </head>
 <body>
-<button class="back-home" onclick="location.href='../../../index.html'">
+<button class="back-home" onclick="location.href='index.html'">
   ⬅ 回首頁
 </button>
 <!-- 懸浮按鈕 -->
@@ -249,7 +285,17 @@ transform: translateX(-80%);
 <!-- 彈出式篩選面板 -->
 <div id="floatingPanel" class="hidden">
 現在日期：<span id="now-datetime">N/A</span><br />
-版本號：20251124v
+版本號：20251205v<br>
+
+模擬功能：<button id="toggleSimulation">開啟模擬模式</button>
+<button id="relocateModeBtn" style="display: none;">🏠 設定搬家點</button>
+<button id="undoStep" style="display: none;">🔙 回退一步</button>
+<button id="resetSimulation"  style="display: none;">重設模擬</button>
+
+
+<div id="simulationStatus" style="margin: 10px 0; font-weight: bold;">
+  目前進攻路線：
+</div>
   <h3>條件篩選</h3>
 
 <div class="filter-group">
@@ -315,10 +361,10 @@ transform: translateX(-80%);
   <button onclick="selectAll('dateFilters', true)">全選</button>
   <button onclick="selectAll('dateFilters', false)">取消全選</button>
   <br>
-  <label><input type="checkbox" value="2025/11/28">2025/11/28</label>
-  <br>
-  <label><input type="checkbox" value="2025/12/1">2025/12/1</label>
-  <label><input type="checkbox" value="2025/12/5">2025/12/5</label>
+
+  <label style="background-color: #ccc;"><input type="checkbox" value="2025/11/28">2025/11/28</label>
+  <label style="background-color: #ccc;"><input type="checkbox" value="2025/12/1">2025/12/1</label>
+  <label style="background-color: #ccc;"><input type="checkbox" value="2025/12/5">2025/12/5</label>
   </div>
  
      </div>
@@ -331,9 +377,10 @@ transform: translateX(-80%);
 	    <button onclick="selectAll('waveFilters', true)">全選</button>
   <button onclick="selectAll('waveFilters', false)">取消全選</button>
   <br>
-  <label title="2025/11/28"><input type="checkbox" value="1">1</label> <!--2025/11/28-->
-  <label title="2025/12/1"><input type="checkbox" value="2">2</label> <!--2025/12/1-->
-  <label title="2025/12/5"><input type="checkbox" value="3">3</label> <!--2025/12/5-->
+
+    <label title="2025/11/28" style="background-color: #ccc;"><input type="checkbox" value="1">1</label> <!--2025/11/28-->
+	<label title="2025/12/1" style="background-color: #ccc;"><input type="checkbox" value="2">2</label> <!--2025/12/1-->
+	<label title="2025/12/5" style="background-color: #ccc;"><input type="checkbox" value="3">3</label> <!--2025/12/5-->
   </div>
      </div>
   </div>
@@ -427,26 +474,26 @@ transform: translateX(-80%);
     <div class="city" style="top: 262px; left: 750px;" data-state="裁淵" data-name="穢土"  data-status="已完成" data-guild="哭泣天使"  data-guild-id="E" data-date="-" data-wave="0"></div>
   
 <!--天樞-->
-    <div class="city" style="top: 1083px; left: 701px;" data-state="天樞" data-name="景眠"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1083px; left: 701px;" data-state="天樞" data-name="景眠"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="2025/12/1" data-wave="2"></div>
     <div class="city" style="top: 1069px; left: 630px;" data-state="天樞" data-name="宙願"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 1029px; left: 513px;" data-state="天樞" data-name="輝野"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 1029px; left: 513px;" data-state="天樞" data-name="輝野"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="2025/11/28" data-wave="1"></div>
     <div class="city" style="top: 945px; left: 616px;" data-state="天樞" data-name="絕辰"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 951px; left: 708px;" data-state="天樞" data-name="星軌"  data-status="已完成" data-guild="PUIPUI"  data-guild-id="H" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 836px; left: 698px;" data-state="天樞" data-name="幽光"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 854px; left: 527px;" data-state="天樞" data-name="邃驛"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 785px; left: 595px;" data-state="天樞" data-name="晴灣"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 731px; left: 753px;" data-state="天樞" data-name="晷華"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 731px; left: 753px;" data-state="天樞" data-name="晷華"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="2025/12/5" data-wave="3"></div>
   
 <!--雲澤-->
     <div class="city" style="top: 503px; left: 932px;" data-state="雲澤" data-name="禱障"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 510px; left: 1045px;" data-state="雲澤" data-name="辰台"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 494px; left: 1126px;" data-state="雲澤" data-name="添芒"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 494px; left: 1126px;" data-state="雲澤" data-name="添芒"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="2025/11/28" data-wave="1"></div>
     <div class="city" style="top: 594px; left: 964px;" data-state="雲澤" data-name="宇焰"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 580px; left: 1092px;" data-state="雲澤" data-name="極關"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 639px; left: 886px;" data-state="雲澤" data-name="淩鋒"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 676px; left: 1024px;" data-state="雲澤" data-name="天都"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 688px; left: 1130px;" data-state="雲澤" data-name="旭陽"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
-    <div class="city" style="top: 723px; left: 962px;" data-state="雲澤" data-name="雲境"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 688px; left: 1130px;" data-state="雲澤" data-name="旭陽"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 723px; left: 962px;" data-state="雲澤" data-name="雲境"  data-status="已完成" data-guild="OSUSHI"  data-guild-id="AF" data-date="2025/12/5" data-wave="3"></div>
   
 <!--天野-->
     <div class="city" style="top: 725px; left: 1295px;" data-state="天野" data-name="魂碑"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
@@ -454,16 +501,16 @@ transform: translateX(-80%);
     <div class="city" style="top: 820px; left: 1388px;" data-state="天野" data-name="遺翎"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 901px; left: 1302px;" data-state="天野" data-name="破曉"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 902px; left: 1457px;" data-state="天野" data-name="斷骨"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 985px; left: 1408px;" data-state="天野" data-name="神骸"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 985px; left: 1408px;" data-state="天野" data-name="神骸"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="2025/12/5" data-wave="3"></div>
     <div class="city" style="top: 1007px; left: 1314px;" data-state="天野" data-name="禦陣"  data-status="已完成" data-guild="군단"  data-guild-id="R" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 1086px; left: 1376px;" data-state="天野" data-name="劍丘"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/11/28" data-wave="1"></div>
-    <div class="city" style="top: 1105px; left: 1296px;" data-state="天野" data-name="農盈"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1086px; left: 1376px;" data-state="天野" data-name="劍丘"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 1105px; left: 1296px;" data-state="天野" data-name="農盈"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="2025/12/1" data-wave="2"></div>
   
 <!--雲垣-->
-    <div class="city" style="top: 1199px; left: 1203px;" data-state="雲垣" data-name="金陵"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 1199px; left: 1203px;" data-state="雲垣" data-name="金陵"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="2025/11/28" data-wave="1"></div>
     <div class="city" style="top: 1295px; left: 1105px;" data-state="雲垣" data-name="雲港"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 1183px; left: 1030px;" data-state="雲垣" data-name="浣溪"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
-    <div class="city" style="top: 1185px; left: 939px;" data-state="雲垣" data-name="未央"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 1183px; left: 1030px;" data-state="雲垣" data-name="浣溪"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1185px; left: 939px;" data-state="雲垣" data-name="未央"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="2025/12/5" data-wave="3"></div>
     <div class="city" style="top: 1317px; left: 943px;" data-state="雲垣" data-name="天枝"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 1409px; left: 903px;" data-state="雲垣" data-name="華裳"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 1250px; left: 838px;" data-state="雲垣" data-name="花舟"  data-status="已完成" data-guild="月の雫"  data-guild-id="AC" data-date="-" data-wave="0"></div>
@@ -474,25 +521,40 @@ transform: translateX(-80%);
     <div class="city" style="top: 840px; left: 986px;" data-state="翼都" data-name="玉壘"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 900px; left: 820px;" data-state="翼都" data-name="琴川"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
     <div class="city" style="top: 937px; left: 1146px;" data-state="翼都" data-name="羽庭"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
-    <div class="city" style="top: 1029px; left: 895px;" data-state="翼都" data-name="天璿"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/11/28" data-wave="1"></div>
-    <div class="city" style="top: 854px; left: 1190px;" data-state="翼都" data-name="玄儀"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/11/28" data-wave="1"></div>
-    <div class="city" style="top: 776px; left: 1095px;" data-state="翼都" data-name="開陽"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
-    <div class="city" style="top: 1062px; left: 1083px;" data-state="翼都" data-name="聖禦"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
-    <div class="city" style="top: 1079px; left: 1194px;" data-state="翼都" data-name="神關"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
-    <div class="city" style="top: 951px; left: 991px;" data-state="翼都" data-name="帝翼"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 1029px; left: 895px;" data-state="翼都" data-name="天璿"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 854px; left: 1190px;" data-state="翼都" data-name="玄儀"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 776px; left: 1095px;" data-state="翼都" data-name="開陽"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1062px; left: 1083px;" data-state="翼都" data-name="聖禦"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 1079px; left: 1194px;" data-state="翼都" data-name="神關"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 951px; left: 991px;" data-state="翼都" data-name="帝翼"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="2025/12/5" data-wave="3"></div>
 
 
 
   <!--城池資訊-->
 	<div class="tooltip" id="tooltip"></div>
-	
+  <!--模擬路線圖層-->
+<svg id="pathLayer" width="100%" height="100%" style="position:absolute; top:0; left:0; pointer-events:none; z-index:4;">
+  <defs>
+    <!-- 正常攻擊線用的紅色箭頭 -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="red" />
+    </marker>
+
+    <!-- 搬家線用的藍色箭頭 -->
+    <marker id="move-arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="blue" />
+    </marker>
+  </defs>
+</svg>
+
+
 	
   </div>
 
 <footer class="site-footer">
   <h3>開發者筆記</h3>
   <p>地圖是手動標記製作，若有錯誤請飛鴿傳書回報</p>
-  <p>本頁版本為2025/11/24</p>
+  <p>本頁版本為2025/12/05</p>
 
   
 </footer>
@@ -791,6 +853,463 @@ function toggleFilter(header) {
 </script>
 
 
+<script>
+//模擬功能
+
+
+//開關
+let isSimulationMode = false;
+
+document.getElementById("toggleSimulation").addEventListener("click", () => {
+  isSimulationMode = !isSimulationMode;
+
+  const btn = document.getElementById("toggleSimulation");
+  btn.innerText = isSimulationMode ? "🔚 結束模擬模式" : "▶️ 開啟模擬模式";
+  
+   // 顯示/隱藏重設按鈕
+  resetSimulation.style.display = isSimulationMode ? "inline-block" : "none";
+  undoStep.style.display = isSimulationMode ? "inline-block" : "none";
+  relocateModeBtn.style.display = isSimulationMode ? "inline-block" : "none";
+
+  // 自動 reset 模擬狀態
+  if (!isSimulationMode) {
+    selectedCities.length = 0;
+
+    const svgr = document.getElementById("pathLayer");
+svgr.querySelectorAll("svg.arrow-path").forEach(el => el.remove());
+svgr.querySelectorAll("svg.arrow-path, line").forEach(el => el.remove());
+
+    const statusBar = document.getElementById("simulationStatus");
+    if (statusBar) statusBar.innerText = "目前進攻路線：";
+	
+	  // ✅ 一定要加這行
+  isRelocateMode = false;
+  document.querySelectorAll(".relocate-icon").forEach(icon => icon.remove());
+relocateModeBtn.innerText = "🏠 搬家模式";
+
+  
+  
+  }
+});
+
+
+
+//確認被點擊的城市有被收進陣列
+const selectedCities = [];
+
+const cities2 = document.querySelectorAll(".city");
+
+cities2.forEach(city => {
+  city.addEventListener("click", () => {
+    if (!isSimulationMode) return;
+
+    // 🏠 搬家模式
+    if (isRelocateMode) {
+      if (!city.querySelector(".relocate-icon")) {
+        const icon = document.createElement("div");
+        icon.classList.add("relocate-icon");
+        icon.innerText = "🏠";
+        city.appendChild(icon);
+      }
+
+      selectedCities.push({
+        element: city,
+        isRelocate: true
+      });
+
+      isRelocateMode = false;
+      relocateModeBtn.innerText = "🏠 設定搬家點"; // 自動切回文字
+
+       const len = selectedCities.length;
+    if (len >= 2) {
+      console.log("📦 搬家模式畫箭頭", selectedCities[len - 2], selectedCities[len - 1]);
+      drawArrowBetween(selectedCities[len - 2], selectedCities[len - 1]);
+    }
+
+    updateSimulationStatus();
+    return; // ⬅️ 一定要 return，不然會繼續往下跑進攻邏輯
+  }
+
+    // ⚔️ 一般進攻模式
+    selectedCities.push({
+      element: city,
+      isRelocate: isRelocateMode
+    });
+
+const len = selectedCities.length;
+if (len >= 2) {
+  console.log("🧪 drawArrowBetween 被呼叫：", selectedCities[len - 2], selectedCities[len - 1]);
+  drawArrowBetween(selectedCities[len - 2], selectedCities[len - 1]);
+}
+/*
+    if (selectedCities.length >= 2) {
+      drawArrowBetween(
+        selectedCities[selectedCities.length - 2],
+        selectedCities[selectedCities.length - 1]
+      );
+    }
+*/
+    updateSimulationStatus();
+  });
+});
+
+
+
+/*
+cities2.forEach(city => {
+  city.addEventListener("click", () => {
+    if (!isSimulationMode) return; // ❌ 模擬沒開就不處理點擊
+    //if (selectedCities.includes(city)) return; //防止重複點擊，因可能回搬所以關閉此功能
+
+    selectedCities.push(city);
+	
+	 if (selectedCities.length >= 2) {
+      const from = selectedCities[selectedCities.length - 2];
+      const to = selectedCities[selectedCities.length - 1];
+      drawArrowBetween(from, to);
+    }
+
+    console.log("目前已選城市：", selectedCities.map(el => el.dataset.name));
+	updateSimulationStatus(); // 👈 每次點擊後更新狀態列
+  });
+ 
+});
+
+
+//顯示狀態
+function updateSimulationStatus() {
+  const statusBar = document.getElementById("simulationStatus");
+
+  if (!statusBar) return;
+
+  const pathText = selectedCities.map(city => city.dataset.name).join(" ➝ ");
+  statusBar.innerText = `目前進攻路線：${pathText}`;
+}
+
+*/
+//畫箭頭
+function drawArrowBetween(from, to) {
+  if (!from || !to) return;
+  const fromEl = from.element;
+const toEl = to.element;
+
+ const fromRect = from.element.getBoundingClientRect();
+  const toRect = to.element.getBoundingClientRect();
+  const mapRect = map.getBoundingClientRect();
+
+  // 算出中心點座標（相對於地圖）
+  const startX = fromRect.left + fromRect.width / 2 - mapRect.left;
+  const startY = fromRect.top + fromRect.height / 2 - mapRect.top;
+  const endX = toRect.left + toRect.width / 2 - mapRect.left;
+  const endY = toRect.top + toRect.height / 2 - mapRect.top;
+
+  // 創建 SVG line
+  const svg = document.getElementById("pathLayer");
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", startX);
+  line.setAttribute("y1", startY);
+  line.setAttribute("x2", endX);
+  line.setAttribute("y2", endY);
+  line.setAttribute("stroke", "red");
+  line.setAttribute("stroke-width", "2");
+  line.setAttribute("marker-end", isRelocateMode ? "url(#move-arrowhead)" : "url(#arrowhead)");
+
+  svg.appendChild(line);
+}
+
+//回退一步1129
+const undoBtn = document.getElementById("undoStep");
+undoBtn.addEventListener("click", () => {
+  if (selectedCities.length > 0) {
+    const removed = selectedCities.pop(); // ⬅️ 拿掉最後一個
+
+    // 👉 如果是搬家點，就把小房子圖示移除
+    if (removed.isRelocate) {
+      const icon = removed.element.querySelector(".relocate-icon");
+      if (icon) icon.remove();
+    }
+
+    // 🔥 清除所有箭頭 (保留 <defs>)
+    const svg1 = document.getElementById("pathLayer");
+    svg1.querySelectorAll("svg").forEach(el => el.remove());
+
+    // 🔁 重畫剩下的路線
+    for (let i = 1; i < selectedCities.length; i++) {
+      drawArrowBetween(selectedCities[i - 1], selectedCities[i]);
+    }
+
+    updateSimulationStatus();
+  }
+});
+
+/*
+//回退一步
+const undoBtn = document.getElementById("undoStep");
+
+undoBtn.addEventListener("click", () => {
+  if (selectedCities.length > 0) {
+    selectedCities.pop(); // 拿掉最後一個城市
+	
+
+    }
+
+    // 清空所有箭頭
+	    const svg1 = document.getElementById("pathLayer");
+	
+	// 🔥 清除所有箭頭線
+svg1.querySelectorAll("line").forEach(el => el.remove());
+
+// ✅ 這行視情況保留，避免累積空的 <svg>，但不是必要
+svg1.querySelectorAll("svg").forEach(el => el.remove());
+/*
+    const svg1 = document.getElementById("pathLayer");
+	svg1.querySelectorAll("svg").forEach(el => el.remove());
+    //svg1.innerHTML = "";
+	
+
+    // 重新畫目前剩下的箭頭
+    for (let i = 1; i < selectedCities.length; i++) {
+      drawArrowBetween(selectedCities[i - 1], selectedCities[i]);
+    }
+
+    updateSimulationStatus(); // 更新顯示路線文字
+  }
+});
+
+*/
+/*
+// 回退一步
+const undoBtn = document.getElementById("undoStep");
+
+undoBtn.addEventListener("click", () => {
+  if (selectedCities.length > 0) {
+    selectedCities.pop(); // 移除最後一個城市
+
+   const svg1 = document.getElementById("pathLayer");
+
+// 🔥 清除所有箭頭線 (保留 <defs>)
+svg1.querySelectorAll("svg").forEach(el => el.remove());
+
+// 🔁 重畫目前剩下的箭頭
+for (let i = 1; i < selectedCities.length; i++) {
+  drawArrowBetween(selectedCities[i - 1], selectedCities[i]);
+}
+    updateSimulationStatus(); // 更新狀態列
+  }
+});
+*/
+
+
+//清除全部箭頭
+document.getElementById("resetSimulation").addEventListener("click", () => {
+  // 1. 清除已選城市
+  selectedCities.length = 0;
+
+  // 2. 清除所有箭頭
+  const svg2 = document.getElementById("pathLayer");
+   svg2.querySelectorAll("line").forEach(line => line.remove());
+   
+// ✅ 如果有搬家點用 path 畫，也可以這樣刪 path
+  //svg2.querySelectorAll("path.relocate-line").forEach(path => path.remove());
+  // 🔄 清除所有搬家圖示
+document.querySelectorAll(".relocate-icon").forEach(icon => icon.remove());
+
+
+
+  // 3. 清空狀態欄（如果有）
+  const statusBar = document.getElementById("simulationStatus");
+  if (statusBar) statusBar.innerText = "目前進攻路線：";
+});
+
+
+//搬家模式
+
+let isRelocateMode = false;
+
+const relocateModeBtn = document.getElementById("relocateModeBtn");
+
+relocateModeBtn.addEventListener("click", () => {
+  isRelocateMode = !isRelocateMode;
+
+  relocateModeBtn.innerText = isRelocateMode
+    ? "🚧 結束搬家模式"
+    : "🏠 設定搬家點";
+});
+
+/*
+let selectedCities3 = [];
+
+const cities3 = document.querySelectorAll(".city");
+const relocateBtn = document.getElementById("relocateModeBtn");
+const resetBtn = document.getElementById("resetSimulation");
+
+// 切換搬家模式
+relocateBtn.addEventListener("click", () => {
+  isRelocateMode = true;
+  relocateBtn.innerText = "🏠 點選搬家點";
+  relocateBtn.disabled = true; // 一次只能選一個，防止誤觸
+});
+
+// 城市點選事件
+cities3.forEach(city => {
+  city.addEventListener("click", () => {
+    if (isRelocateMode) {
+      // 搬家模式：標記搬家點，不清除舊的
+      if (!city.classList.contains("relocate-city")) {
+        city.classList.add("relocate-city");
+
+        const marker = document.createElement("div");
+        marker.classList.add("relocate-mark");
+        marker.innerText = "🏠";
+        city.appendChild(marker);
+      }
+
+      // 自動加入進攻路線
+      if (!selectedCities3.includes(city)) {
+        selectedCities3.push(city);
+      }
+
+      isRelocateMode = false;
+      relocateBtn.innerText = "🏠 搬家模式";
+      relocateBtn.disabled = false;
+      updateSimulationStatus();
+      return;
+    }
+
+    // 進攻模式
+    if (!selectedCities3.includes(city)) {
+      selectedCities3.push(city);
+      if (selectedCities3.length >= 2) {
+        drawArrowBetween(
+          selectedCities3[selectedCities3.length - 2],
+          city
+        );
+      }
+      updateSimulationStatus();
+    }
+  });
+});
+*/
+
+// 畫箭頭 (用 SVG)
+
+function drawArrowBetween(from, to) {
+  const pathLayer = document.getElementById("pathLayer");
+  const map = document.getElementById("map");
+  
+  const fromEl = from.element;
+  const toEl = to.element;
+
+  const fromRect = fromEl.getBoundingClientRect();
+  const toRect = toEl.getBoundingClientRect();
+  const mapRect = map.getBoundingClientRect(); // 基準座標
+
+  // 取得 from/to 相對於 map-container 的中心位置
+  const x1 = fromRect.left - mapRect.left + fromRect.width / 2;
+  const y1 = fromRect.top - mapRect.top + fromRect.height / 2;
+  const x2 = toRect.left - mapRect.left + toRect.width / 2;
+  const y2 = toRect.top - mapRect.top + toRect.height / 2;
+
+  const svg3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  /*
+  svg3.setAttribute("class", "arrow-path");
+  svg3.style.position = "absolute";
+  svg3.style.top = "0";
+  svg3.style.left = "0";
+  svg3.setAttribute("width", "100%");
+  svg3.setAttribute("height", "100%");
+  svg3.style.overflow = "visible";
+  svg3.style.zIndex = "10";
+  svg3.style.pointerEvents = "none";
+  */
+  
+
+  const arrow = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  arrow.setAttribute("x1", x1);
+  arrow.setAttribute("y1", y1);
+  arrow.setAttribute("x2", x2);
+  arrow.setAttribute("y2", y2);
+  
+  arrow.setAttribute("stroke", "red");
+  arrow.setAttribute("stroke-width", "2");
+  //依據需求換線條
+
+if (to.isRelocate) {
+  arrow.setAttribute("stroke", "blue");
+  arrow.setAttribute("stroke-dasharray", "5,5"); // 虛線
+  arrow.setAttribute("stroke-width", "3");
+    console.log("🏠 畫搬家箭頭");
+} else {
+  arrow.setAttribute("stroke", "red");
+  arrow.setAttribute("stroke-width", "2");
+  console.log("⚔️ 畫進攻箭頭");
+}
+
+ // arrow.setAttribute("marker-end", isRelocateMode ? "url(#move-arrowhead)" : "url(#arrowhead)");
+   //arrow.setAttribute("marker-end", "url(#arrowhead)");
+    arrow.setAttribute("marker-end", to.isRelocate ? "url(#move-arrowhead)" : "url(#arrowhead)");
+   console.log("✅ arrowhead 被設定進去了");
+
+
+  svg3.appendChild(arrow);
+  pathLayer.appendChild(svg3);
+   //pathLayer.appendChild(arrow);
+}
+
+
+
+// 顯示路線狀態
+function updateSimulationStatus() {
+  const statusBar = document.getElementById("simulationStatus");
+  if (!statusBar) return;
+
+  const labels = selectedCities.map(item =>
+    item.isRelocate
+      ? `(搬家) ${item.element.dataset.name}`
+      : item.element.dataset.name
+  );
+
+  statusBar.innerText = `目前進攻路線：${labels.join(" ➝ ")}`;
+}
+
+/*
+function updateSimulationStatus() {
+  const display = selectedCities.map(c => {
+    const name = c.dataset.name;
+    return c.classList.contains("relocate-city") ? `(搬家)${name}` : name;
+  }).join(" → ");
+
+  document.getElementById("simulationStatus").innerText = `目前進攻路線：${display}`;
+}
+*/
+/*
+// 重設
+const resetBtn2 = document.getElementById("resetSimulation");
+const pathLayer2 = document.getElementById("pathLayer");
+
+resetBtn2.addEventListener("click", () => {
+  //selectedCities = [];
+  //relocationCities = [];
+  selectedCities.length = 0;
+ // selectedCities3.length = 0;
+  updateSimulationStatus();
+
+  // 移除所有路線箭頭
+  while (pathLayer2.firstChild) {
+    pathLayer2.removeChild(pathLayer.firstChild);
+  }
+
+  // 移除搬家圖示
+  document.querySelectorAll(".relocation-icon").forEach(icon => icon.remove());
+});
+
+*/
+</script>
+
+
+
+
+</script>
 
 
 
