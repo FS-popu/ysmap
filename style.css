@@ -1,0 +1,448 @@
+
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "微軟正黑體", sans-serif;
+    }
+    .map-container {
+      position: relative;
+      width: 1872px;
+      height: 1850px; /*1867px*/
+      background: url('map_s2.png') no-repeat ;
+      background-size: contain;
+      overflow: hidden;
+    }
+    .city {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color:transparent;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: ０px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      z-index: 10;
+    }
+	#floatingToggle {
+		position: fixed;
+		top: 20px;
+		left: 20px;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: #333;
+		color: white;
+		font-size: 22px;
+		border: none;
+		z-index: 1001;
+		cursor: pointer;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+	}
+
+	#floatingPanel {
+		position: fixed;
+		top: 80px;
+		left: 20px;
+		width: 450px;
+		max-height: 70vh;
+		overflow-y: auto;
+		background: white;
+		border: 1px solid #ccc;
+		padding: 16px;
+		border-radius: 8px;
+		z-index: 1000;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+	}
+
+	#floatingPanel.hidden {
+		display: none;
+	}
+	
+	.filter-header {
+  background: #ddd;
+  padding: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-body {
+  padding: 6px;
+  display: none;
+}
+	.city.highlight-guild {
+		background-color: rgba(0, 255, 0, 0.8); /* 綠色亮點標示，被篩選中的 */
+		box-shadow: 0 0 6px 2px rgba(0, 255, 0, 0.6); /* 光暈特效，爽 */
+	}
+	.city.dimmed {
+		opacity: 0.2;
+		pointer-events: none; /* 滑鼠不能點、不觸發 hover */
+	} 
+	
+	.city.highlighte-date {
+		background-color: rgba(255, 0, 0, 0.8); /* 綠色亮點標示，被篩選中的 */
+		 
+	}
+	.arrow-down {
+		position: absolute;
+		top: -55px;
+		left: 50%;
+		transform: translateX(-75%);
+		width: 0;
+		height: 0;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 12px solid red;
+		z-index: 5;
+		
+	}
+	
+	.city .wave-label {
+  position: absolute;
+  top: -20px;       /* 往上 */
+  left: 20%;
+transform: translateX(-80%);
+  width: 18px;
+  height: 18px;
+  background-color: #f5e6c4; /* 米色 */
+  color: #333;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 5;
+}
+
+.city .date-label {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: #d7ebf9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 5;
+}
+.hidden-checkbox {
+  display: none;
+}
+.hidden-label {
+  display: none;
+}
+.guild-label {
+		position: absolute;
+		top: 15px;  /* 調整你要它在 city 圓點下方 */
+		left: 50%;
+		transform: translateX(-75%);
+		font-size: 12px;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.6);
+		padding: 2px 5px;
+		border-radius: 3px;
+		pointer-events: none;
+		z-index: 3;
+		white-space: nowrap;       /* ❗ 不允許換行 */
+		writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+		width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+		display: inline-block;     /* ❗ 確保文字橫向展開 */
+		
+	}
+	.guild-A { /*暮色晨光 */
+	background-color: crimson;
+		}
+
+	.guild-B { /*暮影浮光 */
+		background-color: crimson;
+		}
+	.guild-C { /*天涯海閣 */
+		background-color: skyblue;
+		}
+	.guild-D { /*彼岸花開 */
+		background-color: darkblue;
+		}
+	.guild-E { /*哭泣天使 */
+		background-color: darkblue;
+		}
+	.guild-F { /*一言不合 */
+		background-color: darkblue;
+		}
+	.guild-G { /*北葵向暖 */
+		background-color: darkblue;
+		}
+	.guild-I { /*天天睡不飽ャ */
+		background-color: skyblue;
+		}
+	.guild-J { /*甘噛み亭 */
+		background-color: goldenrod;
+		}
+	.guild-K { /*ラーメン */
+		background-color: goldenrod;
+		}
+	.guild-N { /*Absolve */
+		background-color: goldenrod;
+		}
+	.guild-S { /*화음*/
+		background-color: mediumpurple;
+		}
+		
+	.guild-Y { /*無 */
+		background-color: gray;
+		}
+	.guild-Z {
+		background-color: limegreen;
+		}
+
+
+.site-footer {
+  width: 1872px; /* 👈 跟 .map-container 一樣寬 */
+  box-sizing: border-box;
+  padding: 40px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  position: relative;
+  z-index: 10;
+}
+.back-home {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #e8e8e8;
+  color: #333;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+.back-home:hover {
+  background-color: #d2d2d2;
+}
+
+/* 搬家點樣式 */
+.city .relocate-mark {
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-75%);
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* 進攻路線狀態列文字（可自定） */
+#simulationStatus {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#pathLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* 避免擋住點擊 */
+  z-index: 10;
+}
+
+.city .relocate-icon {
+ 
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-75%);
+  font-size: 18px;
+  color: #007bff;
+}
+
+.birth-place {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none; /* 滑鼠經過不觸發事件 */
+}
+
+
+.birth-label {
+  position: absolute;
+  background-color: lightcyan;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+}
+
+.flag-icon {
+  font-size: 20px;
+  text-align: center;
+}
+
+
+.pass-place {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none; /* 滑鼠經過不觸發事件 */
+}
+
+
+.pass-label-open {
+  position: absolute;
+  background-color: lavender;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  text-align: center;
+  left: 30%;
+  transform: translateX(-40%);
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+.pass-label-closed {
+  background-color: #eee; /* 淺灰色表示封鎖 */
+  color: #aaa;
+  text-decoration: line-through;
+  
+   border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  text-align: center;
+  left: 30%;
+  transform: translateX(-40%);
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+
+.pass-label {
+  position: absolute;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 10px;
+  color: #fff;
+  
+  text-align: center;
+  left: 30%;
+  transform: translateX(-40%);
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+.pass-open {
+  background-color: orchid /* 開放 */
+}
+
+.pass-closed {
+  background-color: #999; /* 灰色表示封鎖 */
+}
+
+
+.flag-pass {
+  font-size: 20px;
+  text-align: center;
+}
+
+.tab-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.tab-btn {
+  padding: 6px 12px;
+  border: none;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.tab-btn.active {
+  background-color: #6ca0dc;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+
+.tab-content.active {
+  display: block;
+}
+
+
+#tab-report {
+  padding: 1em;
+}
+
+#reportSearch {
+  width: 100%;
+  padding: 6px 10px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+#reportTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+#reportTable th, #reportTable td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: center;
+}
+
+#reportTable tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer;
+}
+
+.battle-report-box {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
