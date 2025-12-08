@@ -293,7 +293,45 @@ transform: translateX(-80%);
   display: inline-block;     /* ❗ 確保文字橫向展開 */
 }
 
+
+.birth-elabel { /*敵方出生點*/
+  position: absolute;
+  background-color: palevioletred;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
 }
+
+.birth-klabel { /*韓國人出生點*/
+  position: absolute;
+  background-color: mediumpurple;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+
+
 
 .flag-icon {
   font-size: 20px;

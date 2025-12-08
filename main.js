@@ -43,6 +43,10 @@ const guildNameMap = {
   "AF": "OSUSHI",
   "AG": "月夜ノ黒猫",
   "AH": "lonely理論",
+  "AI": "慕慕的後宮",
+  "AJ": "薯條要不要加大",
+  "AK": "深情狗叫",
+  "AL": "坐看雲起時",
 
 };
 
