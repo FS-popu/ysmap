@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8" />
+  <title>ysmap_20251128v</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "微軟正黑體", sans-serif;
+    }
+    .map-container {
+      position: relative;
+      width: 1872px;
+      height: 1836px;
+      background: url('map.png') no-repeat ;
+      background-size: contain;
+      overflow: hidden;
+    }
+    .city {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color:transparent;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: ０px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      z-index: 10;
+    }
+	#floatingToggle {
+		position: fixed;
+		top: 20px;
+		left: 20px;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: #333;
+		color: white;
+		font-size: 22px;
+		border: none;
+		z-index: 1001;
+		cursor: pointer;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+	}
+
+	#floatingPanel {
+		position: fixed;
+		top: 80px;
+		left: 20px;
+		width: 450px;
+		max-height: 70vh;
+		overflow-y: auto;
+		background: white;
+		border: 1px solid #ccc;
+		padding: 16px;
+		border-radius: 8px;
+		z-index: 1000;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+	}
+
+	#floatingPanel.hidden {
+		display: none;
+	}
+	
+	.filter-header {
+  background: #ddd;
+  padding: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-body {
+  padding: 6px;
+  display: none;
+}
+	.city.highlight-guild {
+		background-color: rgba(0, 255, 0, 0.8); /* 綠色亮點標示，被篩選中的 */
+		box-shadow: 0 0 6px 2px rgba(0, 255, 0, 0.6); /* 光暈特效，爽 */
+	}
+	.city.dimmed {
+		opacity: 0.2;
+		pointer-events: none; /* 滑鼠不能點、不觸發 hover */
+	} 
+	
+	.city.highlighte-date {
+		background-color: rgba(255, 0, 0, 0.8); /* 綠色亮點標示，被篩選中的 */
+		 
+	}
+	.arrow-down {
+		position: absolute;
+		top: -55px;
+		left: 50%;
+		transform: translateX(-75%);
+		width: 0;
+		height: 0;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 12px solid red;
+		z-index: 5;
+		
+	}
+	
+	.city .wave-label {
+  position: absolute;
+  top: -20px;       /* 往上 */
+  left: 20%;
+transform: translateX(-80%);
+  width: 18px;
+  height: 18px;
+  background-color: #f5e6c4; /* 米色 */
+  color: #333;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 5;
+}
+
+.city .date-label {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: #d7ebf9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 5;
+}
+.hidden-checkbox {
+  display: none;
+}
+.hidden-label {
+  display: none;
+}
+.guild-label {
+		position: absolute;
+		top: 15px;  /* 調整你要它在 city 圓點下方 */
+		left: 50%;
+		transform: translateX(-75%);
+		font-size: 12px;
+		color: white;
+		background-color: rgba(0, 0, 0, 0.6);
+		padding: 2px 5px;
+		border-radius: 3px;
+		pointer-events: none;
+		z-index: 3;
+		white-space: nowrap;       /* ❗ 不允許換行 */
+		writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+		width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+		display: inline-block;     /* ❗ 確保文字橫向展開 */
+		
+	}
+	.guild-A { /*暮色晨光 */
+	background-color: crimson;
+		}
+
+	.guild-B { /*暮影浮光 */
+		background-color: crimson;
+		}
+	.guild-C { /*天涯海閣 */
+		background-color: skyblue;
+		}
+	.guild-D { /*彼岸花開 */
+		background-color: darkblue;
+		}
+	.guild-E { /*哭泣天使 */
+		background-color: darkblue;
+		}
+	.guild-F { /*一言不合 */
+		background-color: darkblue;
+		}
+	.guild-G { /*北葵向暖 */
+		background-color: darkblue;
+		}
+	.guild-I { /*天天睡不飽ャ */
+		background-color: skyblue;
+		}
+	.guild-J { /*甘噛み亭 */
+		background-color: goldenrod;
+		}
+	.guild-K { /*ラーメン */
+		background-color: goldenrod;
+		}
+	.guild-N { /*Absolve */
+		background-color: goldenrod;
+		}
+	.guild-S { /*화음*/
+		background-color: mediumpurple;
+		}
+		
+	.guild-Y { /*無 */
+		background-color: gray;
+		}
+	.guild-Z {
+		background-color: limegreen;
+		}
+
+
+.site-footer {
+  width: 1872px; /* 👈 跟 .map-container 一樣寬 */
+  box-sizing: border-box;
+  padding: 40px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  position: relative;
+  z-index: 10;
+}
+.back-home {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #e8e8e8;
+  color: #333;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+.back-home:hover {
+  background-color: #d2d2d2;
+}
+
+
+  </style>
+</head>
+<body>
+<button class="back-home" onclick="location.href='../../../indexp.html'">
+  ⬅ 回首頁
+</button>
+<!-- 懸浮按鈕 -->
+<button id="floatingToggle" title="篩選條件">⚙</button>
+
+<!-- 彈出式篩選面板 -->
+<div id="floatingPanel" class="hidden">
+現在日期：<span id="now-datetime">N/A</span><br />
+版本號：20251128v
+  <h3>條件篩選</h3>
+
+<div class="filter-group">
+    <div class="filter-header" onclick="toggleFilter(this)">▶ 公會</div>
+    <div class="filter-body">
+      <!-- 公會 checkbox 選項 -->
+
+  <div id="guildFilters">
+  <button onclick="selectAll('guildFilters', true)">全選</button>
+  <button onclick="selectAll('guildFilters', false)">取消全選</button>
+  <br>
+   <label><input type="checkbox" value="Z">未有</label>
+   <br>
+   <label><input type="checkbox" value="A">暮色晨光</label>
+   <label><input type="checkbox" value="B">暮影浮光</label>
+   <label><input type="checkbox" value="C">天涯海閣</label>
+   <label><input type="checkbox" value="I">天天睡不飽ャ</label>
+   <br>
+   <label><input type="checkbox" value="D">彼岸花開</label>
+   <label><input type="checkbox" value="G">北葵向暖</label>
+   <label><input type="checkbox" value="E">哭泣天使</label>
+   <label><input type="checkbox" value="F">一言不合</label>
+   <br>
+   <label><input type="checkbox" value="H">PUIPUI</label>
+   <br>
+   <label><input type="checkbox" value="K">ラーメン</label>
+   <label><input type="checkbox" value="N">Absolve</label>
+   <label><input type="checkbox" value="J">甘噛み亭</label>
+   <label><input type="checkbox" value="M">Endzero</label>
+   <br>
+   <label><input type="checkbox" value="AF">OSUSHI</label>
+   <br>
+   <label><input type="checkbox" value="S">화음</label>
+   <label><input type="checkbox" value="R">군단</label>
+   
+    <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="O">뎔루나</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="P">수호</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="Q">냥냥</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="T">Vitamin</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="U">ConneQt</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="V">揍D|CK家族</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="X">輕鬆小品</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="W">猩球崛起</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="L">兎BAN</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AA">破ちぃかわㇱ</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AB">酒処むちむち魂</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AC">月の雫</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AD">こだまのばるす</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AE">水曜日のアリス</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AG">月夜ノ黒猫</label>
+   <label class="hidden-label"><input class="hidden-checkbox" type="checkbox" value="AH">lonely理論</label>
+
+   <br>
+
+   <label><input type="checkbox" value="Y">無</label>
+  </div>
+      </div>
+  </div>
+<div class="filter-group">
+    <div class="filter-header" onclick="toggleFilter(this)">▶ 開放日期</div>
+    <div class="filter-body">
+  <div id="dateFilters">
+  <button onclick="selectAll('dateFilters', true)">全選</button>
+  <button onclick="selectAll('dateFilters', false)">取消全選</button>
+  <br>
+  <label><input type="checkbox" value="2025/12/1">2025/12/1</label>
+  <label><input type="checkbox" value="2025/12/5">2025/12/5</label>
+  <br>
+  <label style="background-color: #ccc;"><input type="checkbox" value="2025/11/28">2025/11/28</label>
+  </div>
+ 
+     </div>
+  </div>
+  <div class="filter-group">
+    <div class="filter-header" onclick="toggleFilter(this)">▶ 開放順序</div>
+    <div class="filter-body">
+      <!-- 波次 checkbox 選項 -->
+    <div id="waveFilters">
+	    <button onclick="selectAll('waveFilters', true)">全選</button>
+  <button onclick="selectAll('waveFilters', false)">取消全選</button>
+  <br>
+  <label title="2025/12/1"><input type="checkbox" value="2">2</label> <!--2025/12/1-->
+  <label title="2025/12/5"><input type="checkbox" value="3">3</label> <!--2025/12/5-->
+  <br>
+    <label title="2025/11/28" style="background-color: #ccc;"><input type="checkbox" value="1">1</label> <!--2025/11/28-->
+  </div>
+     </div>
+  </div>
+
+  <button id="closePanel">關閉</button>
+</div>
+
+  <div class="map-container" id="map">
+  <!--墜星-->
+    <div class="city" style="top: 204px; left: 949px;" data-state="墜星" data-name="天祈"  data-status="已完成" data-guild="哭泣天使"  data-guild-id="E" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 216px; left: 1100px;" data-state="墜星" data-name="碎陶"  data-status="已完成" data-guild="甘噛み亭"  data-guild-id="J" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 204px; left: 845px;" data-state="墜星" data-name="隕池"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 298px; left: 924px;" data-state="墜星" data-name="鏡林"  data-status="已完成" data-guild="뎔루나"  data-guild-id="O" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 337px; left: 1149px;" data-state="墜星" data-name="夢興"  data-status="已完成" data-guild="甘噛み亭"  data-guild-id="J" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 359px; left: 1239px;" data-state="墜星" data-name="舊磁"  data-status="已完成" data-guild="甘噛み亭"  data-guild-id="J" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 377px; left: 879px;" data-state="墜星" data-name="虹石"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 376px; left: 979px;" data-state="墜星" data-name="七霞"  data-status="已完成" data-guild="甘噛み亭"  data-guild-id="J" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 395px; left: 1070px;" data-state="墜星" data-name="桀晶"  data-status="已完成" data-guild="甘噛み亭"  data-guild-id="J" data-date="-" data-wave="0"></div>
+  <!--朔崖-->
+    <div class="city" style="top: 452px; left: 1352px;" data-state="朔崖" data-name="雲哨"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 535px; left: 1261px;" data-state="朔崖" data-name="砧雕"  data-status="已完成" data-guild="수호"  data-guild-id="P" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 532px; left: 1382px;" data-state="朔崖" data-name="龍骸"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 625px; left: 1236px;" data-state="朔崖" data-name="夜息"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 603px; left: 1341px;" data-state="朔崖" data-name="霜天"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 625px; left: 1438px;" data-state="朔崖" data-name="冬刃"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 703px; left: 1562px;" data-state="朔崖" data-name="骨笛"  data-status="已完成" data-guild="냥냥"  data-guild-id="Q" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 640px; left: 1510px;" data-state="朔崖" data-name="鐵禦"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+	<div class="city" style="top: 545px; left: 1471px;" data-state="朔崖" data-name="鏽鏈"  data-status="已完成" data-guild="군단"  data-guild-id="R" data-date="-" data-wave="0"></div>
+ <!--燼原-->
+    <div class="city" style="top: 757px; left: 1646px;" data-state="燼原" data-name="灼空"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 851px; left: 1699px;" data-state="燼原" data-name="灰野"  data-status="已完成" data-guild="兎BAN"  data-guild-id="L" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 863px; left: 1544px;" data-state="燼原" data-name="焚天"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 915px; left: 1639px;" data-state="燼原" data-name="夜梟"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 926px; left: 1806px;" data-state="燼原" data-name="亢燭"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 977px; left: 1720px;" data-state="燼原" data-name="炎杉"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1041px; left: 1670px;" data-state="燼原" data-name="焦土"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1007px; left: 1552px;" data-state="燼原" data-name="熔魂"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1126px; left: 1570px;" data-state="燼原" data-name="風塔"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+  
+ <!--穹谷-->
+    <div class="city" style="top: 1239px; left: 1477px;" data-state="穹谷" data-name="星喉"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1192px; left: 1376px;" data-state="穹谷" data-name="盈光"  data-status="已完成" data-guild="破ちぃかわㇱ"  data-guild-id="AA" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1259px; left: 1302px;" data-state="穹谷" data-name="落星"  data-status="已完成" data-guild="月の雫"  data-guild-id="AC" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1278px; left: 1378px;" data-state="穹谷" data-name="紡碑"  data-status="已完成" data-guild="酒処むちむち魂"  data-guild-id="AB" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1381px; left: 1381px;" data-state="穹谷" data-name="鳴林"  data-status="已完成" data-guild="破ちぃかわㇱ"  data-guild-id="AA" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1482px; left: 1291px;" data-state="穹谷" data-name="苔湖"  data-status="已完成" data-guild="こだまのばるす"  data-guild-id="AD" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1446px; left: 1200px;" data-state="穹谷" data-name="界諭"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1332px; left: 1189px;" data-state="穹谷" data-name="浮羽"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1338px; left: 1280px;" data-state="穹谷" data-name="如瞳"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
+  <!--隕隙-->
+    <div class="city" style="top: 1477px; left: 1070px;" data-state="隕隙" data-name="歸虛"  data-status="已完成" data-guild="天天睡不飽ャ"  data-guild-id="I" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1621px; left: 1096px;" data-state="隕隙" data-name="無時"  data-status="已完成" data-guild="ConneQt"  data-guild-id="U" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1580px; left: 994px;" data-state="隕隙" data-name="畸巧"  data-status="已完成" data-guild="揍D|CK家族"  data-guild-id="V" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1769px; left: 950px;" data-state="隕隙" data-name="未定"  data-status="已完成" data-guild="ConneQt"  data-guild-id="U" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1671px; left: 926px;" data-state="隕隙" data-name="恒輝"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1632px; left: 804px;" data-state="隕隙" data-name="裂幻"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1546px; left: 819px;" data-state="隕隙" data-name="流熵"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1445px; left: 782px;" data-state="隕隙" data-name="界橋"  data-status="已完成" data-guild="水曜日のアリス"  data-guild-id="AE" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1450px; left: 694px;" data-state="隕隙" data-name="光靄"  data-status="已完成" data-guild="水曜日のアリス"  data-guild-id="AE" data-date="-" data-wave="0"></div>
+  
+   <!--寂嶼-->
+    <div class="city" style="top: 1438px; left: 621px;" data-state="寂嶼" data-name="暗旌"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1331px; left: 678px;" data-state="寂嶼" data-name="墟井"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1298px; left: 567px;" data-state="寂嶼" data-name="裂蹄"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1252px; left: 623px;" data-state="寂嶼" data-name="蝕星"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1171px; left: 590px;" data-state="寂嶼" data-name="幽夜"  data-status="已完成" data-guild="PUIPUI"  data-guild-id="H" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1277px; left: 476px;" data-state="寂嶼" data-name="影淒"  data-status="已完成" data-guild="Vitamin"  data-guild-id="T" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1209px; left: 470px;" data-state="寂嶼" data-name="夜苔"  data-status="已完成" data-guild="OSUSHI"  data-guild-id="AF" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1123px; left: 474px;" data-state="寂嶼" data-name="墨羽"  data-status="已完成" data-guild="輕鬆小品"  data-guild-id="X" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1176px; left: 363px;" data-state="寂嶼" data-name="迷因"  data-status="已完成" data-guild="OSUSHI"  data-guild-id="AF" data-date="-" data-wave="0"></div>
+  
+<!--翎川-->
+    <div class="city" style="top: 1092px; left: 253px;" data-state="翎川" data-name="渡霞"  data-status="已完成" data-guild="OSUSHI"  data-guild-id="AF" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1026px; left: 403px;" data-state="翎川" data-name="如英"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1017px; left: 284px;" data-state="翎川" data-name="風原"  data-status="已完成" data-guild="月夜ノ黒猫"  data-guild-id="AG" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 919px; left: 131px;" data-state="翎川" data-name="碧嶼"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 895px; left: 299px;" data-state="翎川" data-name="開拓"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 824px; left: 189px;" data-state="翎川" data-name="展翼"  data-status="已完成" data-guild="猩球崛起"  data-guild-id="W" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 757px; left: 295px;" data-state="翎川" data-name="織梭"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 769px; left: 404px;" data-state="翎川" data-name="尋羽"  data-status="已完成" data-guild="月夜ノ黒猫"  data-guild-id="AG" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 856px; left: 409px;" data-state="翎川" data-name="永誓"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
+ <!--裁淵-->
+    <div class="city" style="top: 639px; left: 471px;" data-state="裁淵" data-name="斷劍"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 647px; left: 597px;" data-state="裁淵" data-name="碎月"  data-status="已完成" data-guild="lonely理論"  data-guild-id="AH" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 611px; left: 694px;" data-state="裁淵" data-name="龍決"  data-status="已完成" data-guild="一言不合"  data-guild-id="F" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 505px; left: 763px;" data-state="裁淵" data-name="淵陵"  data-status="已完成" data-guild="哭泣天使"  data-guild-id="E" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 513px; left: 635px;" data-state="裁淵" data-name="巨鏈"  data-status="已完成" data-guild="哭泣天使"  data-guild-id="E" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 496px; left: 525px;" data-state="裁淵" data-name="夜娥"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 396px; left: 679px;" data-state="裁淵" data-name="罪郡"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 398px; left: 798px;" data-state="裁淵" data-name="凜風"  data-status="已完成" data-guild="無"  data-guild-id="Y" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 262px; left: 750px;" data-state="裁淵" data-name="穢土"  data-status="已完成" data-guild="哭泣天使"  data-guild-id="E" data-date="-" data-wave="0"></div>
+  
+<!--天樞-->
+    <div class="city" style="top: 1083px; left: 701px;" data-state="天樞" data-name="景眠"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1069px; left: 630px;" data-state="天樞" data-name="宙願"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1029px; left: 513px;" data-state="天樞" data-name="輝野"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 945px; left: 616px;" data-state="天樞" data-name="絕辰"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 951px; left: 708px;" data-state="天樞" data-name="星軌"  data-status="已完成" data-guild="PUIPUI"  data-guild-id="H" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 836px; left: 698px;" data-state="天樞" data-name="幽光"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 854px; left: 527px;" data-state="天樞" data-name="邃驛"  data-status="已完成" data-guild="Absolve"  data-guild-id="N" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 785px; left: 595px;" data-state="天樞" data-name="晴灣"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 731px; left: 753px;" data-state="天樞" data-name="晷華"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+  
+<!--雲澤-->
+    <div class="city" style="top: 503px; left: 932px;" data-state="雲澤" data-name="禱障"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 510px; left: 1045px;" data-state="雲澤" data-name="辰台"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 494px; left: 1126px;" data-state="雲澤" data-name="添芒"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 594px; left: 964px;" data-state="雲澤" data-name="宇焰"  data-status="已完成" data-guild="暮影浮光"  data-guild-id="B" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 580px; left: 1092px;" data-state="雲澤" data-name="極關"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 639px; left: 886px;" data-state="雲澤" data-name="淩鋒"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 676px; left: 1024px;" data-state="雲澤" data-name="天都"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 688px; left: 1130px;" data-state="雲澤" data-name="旭陽"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 723px; left: 962px;" data-state="雲澤" data-name="雲境"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+  
+<!--天野-->
+    <div class="city" style="top: 725px; left: 1295px;" data-state="天野" data-name="魂碑"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 725px; left: 1417px;" data-state="天野" data-name="雲弓"  data-status="已完成" data-guild="ラーメン"  data-guild-id="K" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 820px; left: 1388px;" data-state="天野" data-name="遺翎"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 901px; left: 1302px;" data-state="天野" data-name="破曉"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 902px; left: 1457px;" data-state="天野" data-name="斷骨"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 985px; left: 1408px;" data-state="天野" data-name="神骸"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 1007px; left: 1314px;" data-state="天野" data-name="禦陣"  data-status="已完成" data-guild="군단"  data-guild-id="R" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1086px; left: 1376px;" data-state="天野" data-name="劍丘"  data-status="已完成" data-guild="北葵向暖"  data-guild-id="G" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 1105px; left: 1296px;" data-state="天野" data-name="農盈"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+  
+<!--雲垣-->
+    <div class="city" style="top: 1199px; left: 1203px;" data-state="雲垣" data-name="金陵"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 1295px; left: 1105px;" data-state="雲垣" data-name="雲港"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1183px; left: 1030px;" data-state="雲垣" data-name="浣溪"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1185px; left: 939px;" data-state="雲垣" data-name="未央"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 1317px; left: 943px;" data-state="雲垣" data-name="天枝"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1409px; left: 903px;" data-state="雲垣" data-name="華裳"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1250px; left: 838px;" data-state="雲垣" data-name="花舟"  data-status="已完成" data-guild="月の雫"  data-guild-id="AC" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1126px; left: 828px;" data-state="雲垣" data-name="浮歌"  data-status="已完成" data-guild="彼岸花開"  data-guild-id="D" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1184px; left: 702px;" data-state="雲垣" data-name="水月"  data-status="已完成" data-guild="Endzero"  data-guild-id="M" data-date="-" data-wave="0"></div>
+  
+<!--翼都-->
+    <div class="city" style="top: 840px; left: 986px;" data-state="翼都" data-name="玉壘"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 900px; left: 820px;" data-state="翼都" data-name="琴川"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 937px; left: 1146px;" data-state="翼都" data-name="羽庭"  data-status="已完成" data-guild="화음"  data-guild-id="S" data-date="-" data-wave="0"></div>
+    <div class="city" style="top: 1029px; left: 895px;" data-state="翼都" data-name="天璿"  data-status="已完成" data-guild="天涯海閣"  data-guild-id="C" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 854px; left: 1190px;" data-state="翼都" data-name="玄儀"  data-status="已完成" data-guild="暮色晨光"  data-guild-id="A" data-date="2025/11/28" data-wave="1"></div>
+    <div class="city" style="top: 776px; left: 1095px;" data-state="翼都" data-name="開陽"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 1062px; left: 1083px;" data-state="翼都" data-name="聖禦"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+    <div class="city" style="top: 1079px; left: 1194px;" data-state="翼都" data-name="神關"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/1" data-wave="2"></div>
+    <div class="city" style="top: 951px; left: 991px;" data-state="翼都" data-name="帝翼"  data-status="未完成" data-guild="未有"  data-guild-id="Z" data-date="2025/12/5" data-wave="3"></div>
+
+
+
+  <!--城池資訊-->
+	<div class="tooltip" id="tooltip"></div>
+	
+	
+  </div>
+
+<footer class="site-footer">
+  <h3>開發者筆記</h3>
+  <p>地圖是手動標記製作，若有錯誤請飛鴿傳書回報</p>
+  <p>本頁版本為2025/11/28</p>
+
+  
+</footer>
+
+
+
+<script>
+//公會篩選
+const guildid = document.querySelectorAll(".city");
+const checkboxes = document.querySelectorAll("#guildFilters input[type='checkbox']");
+
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", applyGuildFilters);
+});
+
+const guildNameMap = {
+  "A": "暮色晨光",
+  "B": "暮影浮光",
+  "C": "天涯海閣",
+  "D": "彼岸花開",
+  "E": "哭泣天使",
+  "F": "一言不合",
+  "G": "北葵向暖",
+  "H": "PUIPUI",
+  "I": "天天睡不飽ャ",
+  "J": "甘噛み亭",
+  "K": "ラーメン",
+  "L": "兎BAN",
+  "M": "Endzero",
+  "N": "Absolve",
+  "O": "뎔루나",
+  "P": "수호",
+  "Q": "냥냥",
+  "R": "군단",
+  "S": "화음",
+  "T": "Vitamin",
+  "U": "ConneQt",
+  "V": "揍D|CK家族",
+  "W": "猩球崛起",
+  "X": "輕鬆小品",
+  "Y": "無",
+  "Z": "未有",
+  "AA": "破ちぃかわㇱ",
+  "AB": "酒処むちむち魂",
+  "AC": "月の雫",
+  "AD": "こだまのばるす",
+  "AE": "水曜日のアリス",
+  "AF": "OSUSHI",
+  "AG": "月夜ノ黒猫",
+  "AH": "lonely理論",
+
+};
+
+
+function applyGuildFilters() {
+  const selectedStatuses = Array.from(checkboxes)
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+
+  guildid.forEach(city => {
+    const status = city.dataset.guildId;
+
+    const isVisible = selectedStatuses.includes(status);
+
+/*打光點
+  if (selectedStatuses.includes(status)) {
+      city.classList.add("highlight-guild");
+	  
+	  
+    } else {
+      city.classList.remove("highlight-guild");
+    }
+*/
+	
+	let label = city.querySelector('.guild-label');
+
+    if (isVisible) {
+      // 沒有 label 才新增，避免重複加
+      if (!label) {
+        const newLabel = document.createElement('div');
+         newLabel.classList.add('guild-label',`guild-${status}`);
+        newLabel.innerText = guildNameMap[status] || status;
+        city.appendChild(newLabel);
+		console.log(`label class = guild-${status}`);
+      }
+    } 
+	else {
+      // 如果已經有 label 且不該顯示，就移除
+      if (label) {
+        label.remove();
+		}
+	  }
+	  
+  });
+  
+}
+
+
+ 
+
+</script>
+
+<script>
+//日期篩選
+const date = document.querySelectorAll(".city");
+const datecheckboxes = document.querySelectorAll("#dateFilters input[type='checkbox']");
+
+datecheckboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", applyDateFilters);
+});
+
+
+
+function applyDateFilters() {
+  const selecteddate = Array.from(datecheckboxes)
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+
+  date.forEach(city => {
+    const status2 = city.dataset.date;
+
+    const isVisible2 = selecteddate.includes(status2);
+
+/*打光點
+  if (selecteddate.includes(status2)) {
+      city.classList.add("highlighte-date");
+    } else {
+      city.classList.remove("highlighte-date");
+    }
+	*/
+//顯示日期
+	const datev = city.dataset.date;
+let label = city.querySelector('.date-label');
+
+if (selecteddate.includes(datev)) {
+  if (!label) {
+    const newLabel = document.createElement('div');
+    newLabel.classList.add('date-label');
+    newLabel.innerText = datev;
+    city.appendChild(newLabel);
+  }
+} else {
+  if (label) {
+    label.remove();
+  }
+}
+
+	
+  });
+}
+
+</script>
+
+<script>
+//波次篩選
+const wave = document.querySelectorAll(".city");
+const wavecheckboxes = document.querySelectorAll("#waveFilters input[type='checkbox']");
+
+wavecheckboxes.forEach(checkbox => {
+  checkbox.addEventListener("change", applyWaveFilters);
+});
+
+
+function applyWaveFilters() {
+  const selectedwave = Array.from(wavecheckboxes)
+    .filter(cb => cb.checked)
+    .map(cb => cb.value);
+
+  wave.forEach(city => {
+    const status3 = city.dataset.wave;
+    const isVisible3 = selectedwave.includes(status3);
+	
+
+/*顯示箭頭
+  if (selectedwave.includes(status3)) {
+	const arrow = document.createElement('div');
+	arrow.classList.add('arrow-down'); // 👈 箭頭的 class 加在箭頭身上
+	city.appendChild(arrow);           // 👈 箭頭加進城市點裡面
+
+    } else {
+     const existingArrow = city.querySelector('.arrow-down');
+if (existingArrow) {
+  existingArrow.remove(); // 👈 一刀切掉箭頭，不留後患
+}
+    }
+	*/
+	//顯示波次
+	const wavev= city.dataset.wave;
+let label = city.querySelector('.wave-label');
+
+if (selectedwave.includes(wavev)) {
+  if (!label) {
+    const newLabel = document.createElement('div');
+    newLabel.classList.add('wave-label');
+    newLabel.innerText = wavev;
+    city.appendChild(newLabel);
+  }
+} else {
+  if (label) {
+    label.remove();
+  }
+}
+
+	
+  });
+  }
+
+
+
+</script>
+
+<script>
+//篩選器對應
+const filterHandlers = {
+  guildFilters: applyGuildFilters,
+  dateFilters: applyDateFilters,
+  waveFilters: applyWaveFilters,
+};
+
+//全選/取消全選
+function selectAll(containerId, check) {
+  const container = document.getElementById(containerId);
+  const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+  checkboxes.forEach(cb => cb.checked = check);
+
+ const handler = filterHandlers[containerId];
+  if (typeof handler === 'function') {
+    handler();
+  } else {
+    console.warn(`⚠️ 找不到 ${containerId} 對應的篩選處理器`);
+  }
+
+}
+</script>
+
+  <script>
+  //城池資訊
+    const tooltip = document.getElementById("tooltip");
+    const cities = document.querySelectorAll(".city");
+
+   cities.forEach((city) => {
+  city.addEventListener("mouseenter", (e) => {
+    const rect = city.getBoundingClientRect();
+
+    tooltip.innerHTML = `<strong>${city.dataset.name}</strong><br>Status: ${city.dataset.status}<br>佔領公會: ${city.dataset.guild}<br>開放時間：${city.dataset.date}`;
+    tooltip.style.display = "block";
+    tooltip.style.top = `${rect.top + window.scrollY - 40}px`;
+    tooltip.style.left = `${rect.left + window.scrollX + 20}px`;
+  });
+
+  city.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+});
+  </script>
+
+<script>
+//浮動查詢器面板
+const toggleBtn = document.getElementById("floatingToggle");
+const panel = document.getElementById("floatingPanel");
+const closeBtn = document.getElementById("closePanel");
+
+toggleBtn.addEventListener("click", () => {
+  panel.classList.toggle("hidden");
+});
+
+closeBtn.addEventListener("click", () => {
+  panel.classList.add("hidden");
+});
+
+//面板內選項展開
+function toggleFilter(header) {
+  const body = header.nextElementSibling;
+  body.style.display = body.style.display === 'none' ? 'block' : 'none';
+}
+
+</script>
+
+<script>
+//座標定位
+
+  const map = document.getElementById("map");
+  console.log("抓到地圖了嗎？", map);
+
+  if (!map) {
+    console.error("找不到地圖元素！請確認 id='map' 是否存在並在此 script 之前載入");
+  } else {
+    map.addEventListener("click", function (e) {
+      const rect = map.getBoundingClientRect();
+      const x = Math.round(e.clientX - rect.left);
+      const y = Math.round(e.clientY - rect.top);
+      console.log(`left: ${x}px; top: ${y}px`);
+    });
+  }
+</script>
+
+
+
+
+
+
+
+<script>
+  // 取得當前時間
+  function getCurrentDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day} `;
+  }
+
+  // 更新顯示當前時間的元素
+  function updateCurrentDateTime() {
+    const nowDatetimeElement = document.getElementById('now-datetime');
+    if (nowDatetimeElement) {
+      nowDatetimeElement.textContent = getCurrentDateTime();
+    }
+  }
+
+  // 初始設定
+  updateCurrentDateTime();
+
+  // 每秒更新一次時間
+  setInterval(updateCurrentDateTime, 1000);
+</script>
+</body>
+</html>

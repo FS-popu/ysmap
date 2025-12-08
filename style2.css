@@ -1,0 +1,451 @@
+
+
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "微軟正黑體", sans-serif;
+    }
+    .map-container {
+      position: relative;
+      width: 1872px;
+      height: 1850px; /*1867px*/
+      background: url('map_s2.png') no-repeat ;
+      background-size: contain;
+      overflow: hidden;
+    }
+    .city {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color:transparent;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .tooltip {
+      position: absolute;
+      background: white;
+      border: ０px solid #ccc;
+      padding: 8px;
+      border-radius: 4px;
+      z-index: 10;
+    }
+	#floatingToggle {
+		position: fixed;
+		top: 20px;
+		left: 20px;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: #333;
+		color: white;
+		font-size: 22px;
+		border: none;
+		z-index: 1001;
+		cursor: pointer;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+	}
+
+	#floatingPanel {
+		position: fixed;
+		top: 80px;
+		left: 20px;
+		width: 450px;
+		max-height: 70vh;
+		overflow-y: auto;
+		background: white;
+		border: 1px solid #ccc;
+		padding: 16px;
+		border-radius: 8px;
+		z-index: 1000;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+	}
+
+	#floatingPanel.hidden {
+		display: none;
+	}
+	
+	.filter-header {
+  background: #ddd;
+  padding: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.filter-body {
+  padding: 6px;
+  display: none;
+}
+	.city.highlight-guild {
+		background-color: rgba(0, 255, 0, 0.8); /* 綠色亮點標示，被篩選中的 */
+		box-shadow: 0 0 6px 2px rgba(0, 255, 0, 0.6); /* 光暈特效，爽 */
+	}
+	.city.dimmed {
+		opacity: 0.2;
+		pointer-events: none; /* 滑鼠不能點、不觸發 hover */
+	} 
+	
+	.city.highlighte-date {
+		background-color: rgba(255, 0, 0, 0.8); /* 綠色亮點標示，被篩選中的 */
+		 
+	}
+	.arrow-down {
+		position: absolute;
+		top: -55px;
+		left: 50%;
+		transform: translateX(-75%);
+		width: 0;
+		height: 0;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 12px solid red;
+		z-index: 5;
+		
+	}
+	
+
+.city .date-label1 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: #d7ebf9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+
+.city .date-label2 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: antiquewhite;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label3 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: aquamarine;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label4 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: crimson;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label5 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: darkorange;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label6 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: dodgerblue;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label7 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: hotpink;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label8 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: lavender;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label9 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: palegoldenrod;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label10 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: yellowgreen;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.city .date-label11 {
+ position: absolute;
+  top: -3px;  /* 拉高距離，避免蓋到圓點 */
+  left: 50%;   /* 水平置中 */
+  transform: translateX(-75%); /* 搭配 left:50% 使用 */
+  background-color: yellow;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.hidden-checkbox {
+  display: none;
+}
+.hidden-label {
+  display: none;
+}
+
+.site-footer {
+  width: 1872px; /* 👈 跟 .map-container 一樣寬 */
+  box-sizing: border-box;
+  padding: 40px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  position: relative;
+  z-index: 10;
+}
+.back-home {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #e8e8e8;
+  color: #333;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 999;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+.back-home:hover {
+  background-color: #d2d2d2;
+}
+
+
+
+.city .relocate-icon {
+ 
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-75%);
+  font-size: 18px;
+  color: #007bff;
+}
+
+.birth-place {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none; /* 滑鼠經過不觸發事件 */
+}
+
+
+.birth-label {
+  position: absolute;
+  background-color: lightcyan;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+
+.birth-elabel { /*敵方出生點*/
+  position: absolute;
+  background-color: palevioletred;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+.birth-klabel { /*韓國人出生點*/
+  position: absolute;
+  background-color: mediumpurple;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+
+
+
+.flag-icon {
+  font-size: 20px;
+  text-align: center;
+}
+
+
+.pass-place {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none; /* 滑鼠經過不觸發事件 */
+}
+
+
+.pass-label-open {
+  position: absolute;
+  background-color: lavender;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  text-align: center;
+  left: 30%;
+  transform: translateX(-40%);
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+.pass-label-closed {
+  background-color: #eee; /* 淺灰色表示封鎖 */
+  color: #aaa;
+  text-decoration: line-through;
+  
+   border: 1px solid #ccc;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  text-align: center;
+  left: 30%;
+  transform: translateX(-40%);
+  z-index: 20;
+  pointer-events: none;
+  
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+
+.pass-label {
+  position: absolute;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 10px;
+  color: #fff;
+  
+  text-align: center;
+  left: 30%;
+  transform: translateX(-40%);
+  white-space: nowrap;       /* ❗ 不允許換行 */
+  writing-mode: horizontal-tb; /* ❗ 橫著排文字（保險） */
+  width: auto;               /* ❗ 自動寬度，不強制壓縮 */
+  display: inline-block;     /* ❗ 確保文字橫向展開 */
+}
+
+.pass-open {
+  background-color: orchid /* 開放 */
+}
+
+.pass-closed {
+  background-color: #999; /* 灰色表示封鎖 */
+}
+
+
+.flag-pass {
+  font-size: 20px;
+  text-align: center;
+}
+
+
