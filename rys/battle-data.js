@@ -16,8 +16,8 @@ const battleReports = {
 /*更新日期*/
     "天祈": {
     level: "1級",
-    owner: "未有",
-    date: "-",
+    owner: "汐若初見",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -28,8 +28,8 @@ const battleReports = {
 /*更新日期*/
     "碎陶": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "天涯海閤",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -150,8 +150,8 @@ const battleReports = {
  /*更新日期*/
     "龍骸": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "一言不合",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -223,8 +223,8 @@ const battleReports = {
   /*更新日期*/
     "鏽鏈": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "彼岸花開",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -285,8 +285,8 @@ const battleReports = {
   /*更新日期*/
     "亢燭": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "無",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -297,8 +297,8 @@ const battleReports = {
   /*更新日期*/
     "炎杉": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "화음",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -395,8 +395,8 @@ const battleReports = {
   /*更新日期*/
     "鳴林": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "Abslove",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -408,8 +408,8 @@ const battleReports = {
   /*更新日期*/
     "苔湖": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "北葵向暖",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -493,8 +493,8 @@ const battleReports = {
   /*更新日期*/
     "未定": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "OSHSHI",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -502,7 +502,7 @@ const battleReports = {
       level4: "雷暴．車間："
     }
   },
- /*更新日期* /
+ /*更新日期*/
     "恒輝": {
     level: "3級",
     owner: "未有",
@@ -517,8 +517,8 @@ const battleReports = {
   /*更新日期*/
     "裂幻": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "月夜ノ黒猫",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -566,8 +566,8 @@ const battleReports = {
  /*更新日期*/
     "暗旌": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "智媛粉絲團",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -627,8 +627,8 @@ const battleReports = {
   /*更新日期*/
     "影淒": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "暮色晨光",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -712,8 +712,8 @@ const battleReports = {
   /*更新日期*/
     "碧嶼": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "破ちぃかわㇱ",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -736,8 +736,8 @@ const battleReports = {
   /*更新日期*/
     "展翼": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "薯條要不要加大",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -845,8 +845,8 @@ const battleReports = {
   /*更新日期*/
     "夜娥": {
     level: "2級",
-    owner: "未有",
-    date: "-",
+    owner: "月の雫",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -857,8 +857,8 @@ const battleReports = {
   /*更新日期*/
     "罪郡": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "暮影浮光",
+    date: "2025/12/12",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
