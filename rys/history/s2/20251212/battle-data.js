@@ -75,7 +75,7 @@ const battleReports = {
   },
   /*更新日期*/
     "桀晶": {
-    level: "1級",
+    level: "2級",
     owner: "未有",
     date: "-",
     strongholds: {
