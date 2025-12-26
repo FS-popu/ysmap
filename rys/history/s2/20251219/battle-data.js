@@ -771,7 +771,7 @@ const battleReports = {
   },
   /*更新日期*/
     "永誓": {
-    level: "2級",
+    level: "3級",
     owner: "未有",
     date: "-",
     strongholds: {

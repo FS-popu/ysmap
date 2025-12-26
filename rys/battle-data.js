@@ -64,8 +64,8 @@ const battleReports = {
   /*更新日期*/
     "七霞": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "汐若初見",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -174,8 +174,8 @@ const battleReports = {
   /*更新日期*/
     "霜天": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "彼岸花開",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -261,8 +261,8 @@ const battleReports = {
   /*更新日期*/
     "焚天": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "화음",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -371,8 +371,8 @@ const battleReports = {
  /*更新日期*/
     "落星": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "無",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -457,8 +457,8 @@ const battleReports = {
  /*更新日期*/
     "歸虛": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "냥냥",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -614,8 +614,8 @@ const battleReports = {
  /*更新日期*/
     "幽夜": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "暮影浮光",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -771,9 +771,9 @@ const battleReports = {
   },
   /*更新日期*/
     "永誓": {
-    level: "2級",
-    owner: "未有",
-    date: "-",
+    level: "3級",
+    owner: "Abslove",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -809,8 +809,8 @@ const battleReports = {
   /*更新日期*/
     "龍決": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "棉花糖PUI",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -978,8 +978,8 @@ const battleReports = {
   /*更新日期*/
     "晴灣": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "暮色晨光",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1003,8 +1003,8 @@ const battleReports = {
   /*更新日期*/
     "禱障": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "天涯海閣",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1160,8 +1160,8 @@ const battleReports = {
   /*更新日期*/
     "斷骨": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "北葵向暖",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1233,8 +1233,8 @@ const battleReports = {
   /*更新日期*/
     "雲港": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "月夜ノ黒猫",
+    date: "2025/12/26",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
