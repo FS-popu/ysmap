@@ -1110,7 +1110,7 @@ const battleReports = {
   },
   /*更新日期*/
     "雲弓": {
-    level: "5級",
+    level: "6級",
     owner: "未有",
     date: "-",
     strongholds: {

@@ -966,8 +966,8 @@ const battleReports = {
   /*更新日期*/
     "邃驛": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "暮影浮光",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1015,8 +1015,8 @@ const battleReports = {
   /*更新日期*/
     "辰台": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "棉花糖PUI",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1123,9 +1123,9 @@ const battleReports = {
   },
   /*更新日期*/
     "雲弓": {
-    level: "5級",
-    owner: "未有",
-    date: "-",
+    level: "6級",
+    owner: "鳳月夜",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1318,8 +1318,8 @@ const battleReports = {
     /*更新日期*/
     "葦裳": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "수호",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1331,8 +1331,8 @@ const battleReports = {
   /*更新日期*/
     "玉壘": {
     level: "8級",
-    owner: "未有",
-    date: "-",
+    owner: "ラーメン",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1343,8 +1343,8 @@ const battleReports = {
   /*更新日期*/
     "琴川": {
     level: "7級",
-    owner: "未有",
-    date: "-",
+    owner: "暮色晨光",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1355,8 +1355,8 @@ const battleReports = {
   /*更新日期*/
     "羽庭": {
     level: "7級",
-    owner: "未有",
-    date: "-",
+    owner: "天涯海閣",
+    date: "2026/1/2",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
