@@ -505,8 +505,8 @@ const battleReports = {
  /*更新日期*/
     "恒輝": {
     level: "3級",
-    owner: "未有",
-    date: "-",
+    owner: "月夜ノ黒猫",
+    date: "2025/12/08",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -918,8 +918,8 @@ const battleReports = {
    /*更新日期*/
     "輝野": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "智媛粉絲團",
+    date: "2026/01/05",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1027,8 +1027,8 @@ const battleReports = {
   /*更新日期*/
     "添芒": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "曲劍墨參瑪",
+    date: "2026/01/05",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1196,8 +1196,8 @@ const battleReports = {
   /*更新日期*/
     "劍丘": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "彼岸花開",
+    date: "2026/01/05",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1221,8 +1221,8 @@ const battleReports = {
   /*更新日期*/
     "金陵": {
     level: "6級",
-    owner: "未有",
-    date: "-",
+    owner: "Endzero",
+    date: "2026/01/05",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1367,8 +1367,8 @@ const battleReports = {
   /*更新日期*/
     "天璿": {
     level: "8級",
-    owner: "未有",
-    date: "-",
+    owner: "暮色晨光",
+    date: "2026/01/05",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
@@ -1379,8 +1379,8 @@ const battleReports = {
    /*更新日期*/
     "玄儀": {
     level: "8級",
-    owner: "未有",
-    date: "-",
+    owner: "天涯海閣",
+    date: "2026/01/05",
     strongholds: {
       level1: "寂滅．書院：",
       level2: "靈妙．醫療院：",
